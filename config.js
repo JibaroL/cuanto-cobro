@@ -6,7 +6,7 @@ window.CC_CONFIG = {
   aliasMP: "jibaro.code",      // alias de Mercado Pago para transferencias
   aliasNX: "jibaro.code.nx",   // alias de Naranja X
   titularAlias: "",            // nombre que ve el cliente al transferir
-  linkPagoAR: "",              // link de pago de Mercado Pago (Argentina)
+  linkPagoAR: "https://mpago.la/1vfzfRj", // link de pago de Mercado Pago (Argentina)
   linkPagoInternacional: "",   // Hotmart o Lemon Squeezy (resto del mundo)
   precioAR: "$ 9.900",         // precio que se muestra en Argentina
   precioLanzamientoAR: "$ 5.900",
