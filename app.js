@@ -14,6 +14,15 @@
 
   // ---------- Datos ----------
   function id() { return Math.random().toString(36).slice(2, 10); }
+  // Precios de ejemplo pensados en pesos argentinos; se llevan a la moneda del visitante de forma aproximada.
+  var REG = window.CC_REGION || { ar: true, moneda: "ARS" };
+  var FACTOR = { ARS: 1, USD: 1 / 1400, EUR: 1 / 1550, MXN: 1 / 75, COP: 3, CLP: 0.7, PEN: 1 / 380, UYU: 1 / 35 };
+  var REDONDEO = { ARS: 100, USD: 1, EUR: 1, MXN: 10, COP: 1000, CLP: 100, PEN: 1, UYU: 10 };
+  function local(n) {
+    var x = n * (FACTOR[REG.moneda] || 1);
+    if (x >= 10) { var p = Math.pow(10, Math.floor(Math.log10(x)) - 1); return Math.round(x / p) * p; }
+    return Math.round(x * 100) / 100;
+  }
   function ejemplo() {
     var i = {
       harina: { id: id(), nombre: "Harina 0000", precio: 1200, cant: 1, unidad: "kg" },
@@ -24,7 +33,7 @@
       leche: { id: id(), nombre: "Leche", precio: 1500, cant: 1, unidad: "l" },
       caja: { id: id(), nombre: "Caja para torta", precio: 9000, cant: 10, unidad: "u" }
     };
-    var insumos = Object.keys(i).map(function (k) { i[k].actualizado = Date.now(); return i[k]; });
+    var insumos = Object.keys(i).map(function (k) { i[k].precio = local(i[k].precio); i[k].actualizado = Date.now(); return i[k]; });
     var torta = {
       id: id(), nombre: "Torta de chocolate (ejemplo)", ejemplo: true, rinde: 12, unidadVenta: "porción",
       horas: 2, valorHora: "", margen: 50,
@@ -34,11 +43,11 @@
         { insumoId: i.cacao.id, cant: 80, unidad: "g" }, { insumoId: i.leche.id, cant: 250, unidad: "ml" },
         { insumoId: i.caja.id, cant: 1, unidad: "u" }
       ],
-      extras: [{ nombre: "Gas y luz", monto: 600 }]
+      extras: [{ nombre: "Gas y luz", monto: local(600) }]
     };
     return {
       insumos: insumos, recetas: [torta],
-      ajustes: { negocio: "", moneda: "ARS", valorHora: 3000, margen: 50, redondeo: 100 },
+      ajustes: { negocio: "", moneda: REG.moneda, valorHora: local(3000), margen: 50, redondeo: REDONDEO[REG.moneda] || 0 },
       pro: { ok: false, codigo: "" }
     };
   }
@@ -65,7 +74,9 @@
   function plata(n) {
     var m = S.ajustes.moneda || "ARS";
     var dec = ["EUR", "USD", "PEN"].indexOf(m) >= 0 ? 2 : 0;
-    try { return new Intl.NumberFormat("es-AR", { style: "currency", currency: m, minimumFractionDigits: dec, maximumFractionDigits: dec }).format(n || 0); }
+    var o = { style: "currency", currency: m, currencyDisplay: "narrowSymbol", minimumFractionDigits: dec, maximumFractionDigits: dec };
+    try { return new Intl.NumberFormat("es-AR", o).format(n || 0); } catch (e1) { delete o.currencyDisplay; }
+    try { return new Intl.NumberFormat("es-AR", o).format(n || 0); }
     catch (e) { return "$ " + Math.round(n || 0); }
   }
   function pct(n) { return (n > 0 ? "+" : "") + n.toFixed(0) + "%"; }
@@ -375,19 +386,28 @@
   function hojaComprar(motivo) {
     var precioAR = CFG.lanzamientoActivo ? CFG.precioLanzamientoAR : CFG.precioAR;
     var precioUSD = CFG.lanzamientoActivo ? CFG.precioLanzamientoUSD : CFG.precioUSD;
-    var h = "<h2>Pasá a Cuánto Cobro PRO</h2>" + (motivo ? '<p class="muted">' + esc(motivo) + "</p>" : "") +
-      "<ul><li>Recetas ilimitadas</li><li>Lista de precios sin marca de agua</li><li>Pago único, es tuyo para siempre</li></ul>" +
-      '<p><span class="precio grande">' + esc(precioAR) + "</span>" + (CFG.lanzamientoActivo ? ' <s class="muted">' + esc(CFG.precioAR) + "</s>" : "") + ' <span class="muted small">en Argentina · ' + esc(precioUSD) + " en otros países</span></p>";
-    if (CFG.linkPagoAR) h += '<a class="btn ancho" href="' + esc(CFG.linkPagoAR) + '" target="_blank" rel="noopener">Pagar con Mercado Pago</a>';
-    if (CFG.aliasMP || CFG.aliasNX) {
-      h += '<div class="card"><p class="small muted">' + (CFG.linkPagoAR ? "O transferí" : "Transferí") + ' a cualquiera de estos alias' + (CFG.titularAlias ? " (a nombre de " + esc(CFG.titularAlias) + ")" : "") + ':</p>';
-      if (CFG.aliasMP) h += '<p class="small">Mercado Pago</p><div class="copiar">' + esc(CFG.aliasMP) + '</div><button class="btn sec" data-a="copiar-alias" data-v="' + esc(CFG.aliasMP) + '">Copiar alias Mercado Pago</button>';
-      if (CFG.aliasNX) h += '<p class="small">Naranja X</p><div class="copiar">' + esc(CFG.aliasNX) + '</div><button class="btn sec" data-a="copiar-alias" data-v="' + esc(CFG.aliasNX) + '">Copiar alias Naranja X</button>';
-      h += "</div>";
+    var ar = REG.ar;
+    var h = "<h2>" + (ar ? "Pasá" : "Pásate") + " a Cuánto Cobro PRO</h2>" + (motivo ? '<p class="muted">' + esc(motivo) + "</p>" : "") +
+      "<ul><li>Recetas ilimitadas</li><li>Lista de precios sin marca de agua</li><li>Pago único, es tuyo para siempre</li></ul>";
+    if (ar) {
+      h += '<p><span class="precio grande">' + esc(precioAR) + "</span>" + (CFG.lanzamientoActivo ? ' <s class="muted">' + esc(CFG.precioAR) + "</s>" : "") + "</p>";
+      if (CFG.linkPagoAR) h += '<a class="btn ancho" href="' + esc(CFG.linkPagoAR) + '" target="_blank" rel="noopener">Pagar con Mercado Pago</a>';
+      if (CFG.aliasMP || CFG.aliasNX) {
+        h += '<div class="card"><p class="small muted">' + (CFG.linkPagoAR ? "O transferí" : "Transferí") + " a cualquiera de estos alias" + (CFG.titularAlias ? " (a nombre de " + esc(CFG.titularAlias) + ")" : "") + ":</p>";
+        if (CFG.aliasMP) h += '<p class="small">Mercado Pago</p><div class="copiar">' + esc(CFG.aliasMP) + '</div><button class="btn sec" data-a="copiar-alias" data-v="' + esc(CFG.aliasMP) + '">Copiar alias Mercado Pago</button>';
+        if (CFG.aliasNX) h += '<p class="small">Naranja X</p><div class="copiar">' + esc(CFG.aliasNX) + '</div><button class="btn sec" data-a="copiar-alias" data-v="' + esc(CFG.aliasNX) + '">Copiar alias Naranja X</button>';
+        h += "</div>";
+      }
+      if (CFG.whatsappVentas) h += '<a class="btn borde ancho" href="https://wa.me/' + esc(CFG.whatsappVentas) + "?text=" + encodeURIComponent("Hola! Ya pagué Cuánto Cobro PRO, te mando el comprobante para recibir mi código.") + '" target="_blank" rel="noopener">Ya pagué: pedir mi código por WhatsApp</a>' +
+        '<p class="small muted">Mandá el comprobante y te respondemos con tu código. Lo ingresás en Ajustes.</p>';
+      if (CFG.linkPagoInternacional) h += '<p class="small muted">¿Estás en otro país? <a href="' + esc(CFG.linkPagoInternacional) + '" target="_blank" rel="noopener">Pagá ' + esc(precioUSD) + " con tarjeta</a>.</p>";
+    } else {
+      h += '<p><span class="precio grande">' + esc(precioUSD) + "</span>" + (CFG.lanzamientoActivo ? ' <s class="muted">' + esc(CFG.precioUSD) + "</s>" : "") + ' <span class="small muted">pago único, en tu moneda</span></p>';
+      if (CFG.linkPagoInternacional) h += '<a class="btn ancho" href="' + esc(CFG.linkPagoInternacional) + '" target="_blank" rel="noopener">Comprar ahora</a>' +
+        '<p class="small muted">Pagas con tarjeta o con los medios locales de tu país. Tu código llega por correo después de la compra. Lo ingresas en Ajustes.</p>';
+      if (CFG.whatsappVentas) h += '<a class="btn ' + (CFG.linkPagoInternacional ? "borde" : "") + ' ancho" href="https://wa.me/' + esc(CFG.whatsappVentas) + "?text=" + encodeURIComponent("¡Hola! Quiero Cuánto Cobro PRO. " + (CFG.linkPagoInternacional ? "Ya compré y no me llegó el código." : "¿Cómo lo pago desde mi país?")) + '" target="_blank" rel="noopener">' + (CFG.linkPagoInternacional ? "¿No te llegó el código? Escríbenos" : "Escríbenos por WhatsApp para comprar") + "</a>";
+      h += '<p class="small muted">¿Estás en Argentina? <a href="?pais=ar">Ver precio en pesos</a>.</p>';
     }
-    if (CFG.linkPagoInternacional) h += '<a class="btn sec ancho" href="' + esc(CFG.linkPagoInternacional) + '" target="_blank" rel="noopener">Pagar desde otro país</a>';
-    if (CFG.whatsappVentas) h += '<a class="btn borde ancho" href="https://wa.me/' + esc(CFG.whatsappVentas) + "?text=" + encodeURIComponent("Hola! Ya pagué Cuánto Cobro PRO, te mando el comprobante para recibir mi código.") + '" target="_blank" rel="noopener">Ya pagué: pedir mi código por WhatsApp</a>' +
-      '<p class="small muted">Mandá el comprobante y te respondemos con tu código. Lo ingresás en Ajustes.</p>';
     if (!CFG.linkPagoAR && !CFG.aliasMP && !CFG.aliasNX && !CFG.whatsappVentas && !CFG.linkPagoInternacional) h += '<p class="muted">Muy pronto vas a poder comprarlo desde acá.</p>';
     abrirHoja(h + '<button class="btn borde" data-a="cerrar">Ahora no</button>');
   }
