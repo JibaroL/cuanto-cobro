@@ -1,5 +1,5 @@
 // Guarda la app para que funcione sin internet. Cambiar VERSION en cada publicación.
-var VERSION = "cc-v3";
+var VERSION = "cc-v4";
 var ARCHIVOS = ["app.html", "app.css", "app.js", "calc.js", "config.js", "codes.js", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", function (e) { e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(ARCHIVOS); })); self.skipWaiting(); });
 self.addEventListener("activate", function (e) {
