@@ -84,7 +84,7 @@ footer{padding-block:30px 50px;color:var(--muted);font-size:14px}
     <p class="muted" id="p-usd" style="color:var(--muted)">Precio de lanzamiento en Argentina. Desde otros países: USD 5.</p>
     <ul><li>Gratis: 2 recetas propias, para que lo pruebes</li><li>PRO: recetas ilimitadas y lista de precios sin marca de agua</li><li>Sin suscripción ni cuenta. Tus datos quedan en tu teléfono</li><li>Moneda de tu país: pesos, soles, euros o dólares</li></ul>
     <div id="pagos" style="display:flex;flex-direction:column;gap:10px"></div>
-    <p style="font-size:14px;color:var(--muted)" data-tu="Después de pagar te llega tu código por correo y lo ingresas en Ajustes de la app.">Después de pagar te mandamos tu código por WhatsApp y lo ingresás en Ajustes de la app.</p>
+    <p style="font-size:14px;color:var(--muted)" data-tu="Después de comprar, envíanos tu número de compra por WhatsApp, te mandamos tu código y lo ingresas en Ajustes de la app.">Después de pagar te mandamos tu código por WhatsApp y lo ingresás en Ajustes de la app.</p>
   </div>
 </section>
 
@@ -131,7 +131,7 @@ footer{padding-block:30px 50px;color:var(--muted);font-size:14px}
     $p.textContent = lanz ? C.precioLanzamientoUSD : C.precioUSD;
     if (lanz) antes.textContent = C.precioUSD; else antes.hidden = true;
     nota.textContent = (lanz ? "Precio de lanzamiento. " : "") + "Pago único. Pagas en tu moneda, con tarjeta o con los medios de pago de tu país.";
-    if (C.linkPagoInternacional) h += '<a class="btn" href="' + esc(C.linkPagoInternacional) + '" target="_blank" rel="noopener">Comprar ahora</a>' + wa("¡Hola! Tengo una duda sobre Cuánto Cobro PRO", "Escríbenos por WhatsApp", "sec");
+    if (C.linkPagoInternacional) h += '<a class="btn" href="' + esc(C.linkPagoInternacional) + '" target="_blank" rel="noopener">Comprar ahora</a>' + wa("¡Hola! Ya compré Cuánto Cobro PRO por Hotmart, mi número de compra es: ", "Ya compré: pedir mi código", "sec");
     else { h += wa("¡Hola! Quiero Cuánto Cobro PRO. ¿Cómo lo pago desde mi país?", "Comprar por WhatsApp", ""); document.querySelector("[data-tu^='Después de pagar']").textContent = "Escríbenos por WhatsApp, te pasamos cómo pagar desde tu país y te mandamos tu código."; }
     h += '<p style="font-size:14px;color:var(--muted)">¿Estás en Argentina? <a href="?pais=ar">Ver precio en pesos</a></p>';
   }

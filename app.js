@@ -404,8 +404,8 @@
     } else {
       h += '<p><span class="precio grande">' + esc(precioUSD) + "</span>" + (CFG.lanzamientoActivo ? ' <s class="muted">' + esc(CFG.precioUSD) + "</s>" : "") + ' <span class="small muted">pago único, en tu moneda</span></p>';
       if (CFG.linkPagoInternacional) h += '<a class="btn ancho" href="' + esc(CFG.linkPagoInternacional) + '" target="_blank" rel="noopener">Comprar ahora</a>' +
-        '<p class="small muted">Pagas con tarjeta o con los medios locales de tu país. Tu código llega por correo después de la compra. Lo ingresas en Ajustes.</p>';
-      if (CFG.whatsappVentas) h += '<a class="btn ' + (CFG.linkPagoInternacional ? "borde" : "") + ' ancho" href="https://wa.me/' + esc(CFG.whatsappVentas) + "?text=" + encodeURIComponent("¡Hola! Quiero Cuánto Cobro PRO. " + (CFG.linkPagoInternacional ? "Ya compré y no me llegó el código." : "¿Cómo lo pago desde mi país?")) + '" target="_blank" rel="noopener">' + (CFG.linkPagoInternacional ? "¿No te llegó el código? Escríbenos" : "Escríbenos por WhatsApp para comprar") + "</a>";
+        '<p class="small muted">Pagas con tarjeta o con los medios locales de tu país. Después de comprar, envíanos tu número de compra por WhatsApp y te mandamos tu código. Lo ingresas en Ajustes.</p>';
+      if (CFG.whatsappVentas) h += '<a class="btn ' + (CFG.linkPagoInternacional ? "borde" : "") + ' ancho" href="https://wa.me/' + esc(CFG.whatsappVentas) + "?text=" + encodeURIComponent("¡Hola! Quiero Cuánto Cobro PRO. " + (CFG.linkPagoInternacional ? "Ya compré por Hotmart, mi número de compra es: " : "¿Cómo lo pago desde mi país?")) + '" target="_blank" rel="noopener">' + (CFG.linkPagoInternacional ? "Ya compré: pedir mi código por WhatsApp" : "Escríbenos por WhatsApp para comprar") + "</a>";
       h += '<p class="small muted">¿Estás en Argentina? <a href="?pais=ar">Ver precio en pesos</a>.</p>';
     }
     if (!CFG.linkPagoAR && !CFG.aliasMP && !CFG.aliasNX && !CFG.whatsappVentas && !CFG.linkPagoInternacional) h += '<p class="muted">Muy pronto vas a poder comprarlo desde acá.</p>';

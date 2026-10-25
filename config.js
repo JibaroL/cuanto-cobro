@@ -7,7 +7,7 @@ window.CC_CONFIG = {
   aliasNX: "jibaro.code.nx",   // alias de Naranja X
   titularAlias: "",            // nombre que ve el cliente al transferir
   linkPagoAR: "https://mpago.la/1vfzfRj", // link de pago de Mercado Pago (Argentina)
-  linkPagoInternacional: "",   // Hotmart o Lemon Squeezy (resto del mundo)
+  linkPagoInternacional: "https://pay.hotmart.com/L108185304C", // Hotmart o Lemon Squeezy (resto del mundo)
   precioAR: "$ 9.900",         // precio que se muestra en Argentina
   precioLanzamientoAR: "$ 5.900",
   precioUSD: "USD 9",
