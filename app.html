@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuánto Cobro</title>
+<meta name="description" content="Calculá el costo real y el precio de venta de tus recetas y productos.">
+<meta name="theme-color" content="#B8325F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <span class="logo" aria-hidden="true">$</span>
+    <h1 id="titulo">Cuánto Cobro</h1>
+    <span id="plan" class="plan"></span>
+  </div>
+</header>
+<main id="vista" class="vista" tabindex="-1"></main>
+<nav class="tabs" aria-label="Secciones">
+  <button data-ir="recetas" class="tab">Recetas</button>
+  <button data-ir="insumos" class="tab">Insumos</button>
+  <button data-ir="lista" class="tab">Lista de precios</button>
+  <button data-ir="ajustes" class="tab">Ajustes</button>
+</nav>
+<div id="hoja" class="hoja" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="config.js"></script>
+<script src="codes.js"></script>
+<script src="calc.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

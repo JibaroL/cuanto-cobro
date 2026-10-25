@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuánto Cobro · Calculá a cuánto vender tus productos</title>
+<meta name="description" content="La app para reposteras y emprendedores: cargás tu receta y te dice cuánto te cuesta y a cuánto venderla. Si sube un insumo, recalcula todo.">
+<meta property="og:title" content="Cuánto Cobro">
+<meta property="og:description" content="¿A cuánto lo vendo para no perder plata? Cargá tu receta y te lo dice en segundos.">
+<meta property="og:image" content="captura.png">
+<meta name="theme-color" content="#B8325F">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#FFF9FA;--fg:#22171C;--muted:#6F5F66;--line:#EADFE3;--accent:#B8325F;--accent-fg:#fff;--soft:#F8E3EA;--surface:#fff;
+  --f:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#161013;--fg:#F3EBEE;--muted:#B9A8AF;--line:#3A2E33;--accent:#FF7EA6;--accent-fg:#2A0D17;--soft:#3D1D28;--surface:#21191D;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.55 var(--f)}
+.w{max-width:980px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3{line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1{font-size:clamp(36px,7vw,62px);font-weight:850}
+h2{font-size:clamp(26px,4vw,36px)}
+p{margin:0}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:36px;align-items:center;padding-block:48px 40px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:28px}}
+.hero .txt{display:flex;flex-direction:column;gap:18px}
+.tag{display:inline-block;align-self:flex-start;background:var(--soft);color:var(--accent);font-weight:700;font-size:14px;padding:6px 12px;border-radius:99px}
+.lead{font-size:20px;color:var(--muted)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:15px 22px;font:700 17px var(--f);cursor:pointer;background:var(--accent);color:var(--accent-fg);text-decoration:none;display:inline-block;text-align:center}
+.btn.sec{background:var(--soft);color:var(--accent)}
+.btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.tel{justify-self:center;width:min(320px,100%);aspect-ratio:9/18.5;border-radius:38px;border:10px solid var(--fg);overflow:hidden;background:var(--surface);box-shadow:0 30px 60px -30px rgba(80,10,40,.5)}
+.tel img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+section{padding-block:44px;display:flex;flex-direction:column;gap:22px}
+.dolor{background:var(--accent);color:var(--accent-fg)}
+.dolor .w{display:flex;flex-direction:column;gap:14px;padding-block:44px}
+.dolor p{font-size:20px;max-width:60ch}
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.paso{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.paso b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.precio{background:var(--surface);border:2px solid var(--accent);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px;max-width:520px}
+.monto{font-size:48px;font-weight:850;color:var(--accent);letter-spacing:-.03em}
+.monto s{font-size:22px;color:var(--muted);font-weight:500}
+ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+details{border-bottom:1px solid var(--line);padding-block:14px}
+summary{font-weight:700;cursor:pointer}
+details p{margin-top:8px;color:var(--muted)}
+.alias{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;user-select:all}
+footer{padding-block:30px 50px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="w hero">
+  <div class="txt">
+    <span class="tag">Para reposteras, cocineras y emprendedores</span>
+    <h1>¿A cuánto lo vendo para no perder plata?</h1>
+    <p class="lead">Cargás tu receta con lo que pagaste cada ingrediente, tus horas y tus gastos. Cuánto Cobro te dice el costo real y el precio de venta. Si sube la harina, cambiás un número y se recalcula todo.</p>
+    <div class="cta"><a class="btn" href="app.html">Probar gratis</a><a class="btn sec" href="#precio">Ver precio</a></div>
+    <p class="muted" style="font-size:14px;color:var(--muted)">Funciona en el celular, sin internet y sin crear cuenta.</p>
+  </div>
+  <div class="tel"><img src="captura.png" alt="La app mostrando el precio sugerido de una torta de chocolate"></div>
+</div>
+
+<div class="dolor"><div class="w">
+  <h2>Si ponés el precio "a ojo", estás regalando tu trabajo</h2>
+  <p>La mayoría suma los ingredientes y listo. Se olvida de la caja, el gas, la luz y sus propias horas. Y cuando suben los insumos, sigue cobrando lo mismo durante semanas.</p>
+</div></div>
+
+<section class="w">
+  <h2>Así funciona</h2>
+  <div class="pasos">
+    <div class="paso"><b>Paso 1</b><h3>Cargás tus insumos</h3><p>Lo que pagaste y cuánto trae: harina 1 kg, huevos por docena, cajas por 10.</p></div>
+    <div class="paso"><b>Paso 2</b><h3>Armás la receta</h3><p>Cuánto usás de cada cosa, cuántas porciones rinde, tus horas y cuánto querés ganar.</p></div>
+    <div class="paso"><b>Paso 3</b><h3>Compartís tu lista</h3><p>Te arma la lista de precios como imagen o texto para mandar por WhatsApp o subir a Instagram.</p></div>
+  </div>
+  <div class="paso" style="max-width:640px"><b>Lo que ningún Excel hace</b><h3>"Subió la manteca"</h3><p>Cambiás el precio de un insumo y la app te muestra cómo quedan todas las recetas que lo usan, con el porcentaje de aumento.</p></div>
+</section>
+
+<section class="w" id="precio">
+  <h2>Un solo pago, para siempre</h2>
+  <div class="precio">
+    <div class="monto"><span id="p-ar">$ 5.900</span> <s id="p-ar-antes">$ 9.900</s></div>
+    <p class="muted" id="p-usd" style="color:var(--muted)">Precio de lanzamiento en Argentina. Desde otros países: USD 5.</p>
+    <ul><li>Gratis: 2 recetas propias, para que lo pruebes</li><li>PRO: recetas ilimitadas y lista de precios sin marca de agua</li><li>Sin suscripción ni cuenta. Tus datos quedan en tu teléfono</li><li>Moneda de tu país: pesos, soles, euros o dólares</li></ul>
+    <div id="pagos" style="display:flex;flex-direction:column;gap:10px"></div>
+    <p style="font-size:14px;color:var(--muted)">Después de pagar te mandamos tu código por WhatsApp y lo ingresás en Ajustes de la app.</p>
+  </div>
+</section>
+
+<section class="w">
+  <h2>Preguntas</h2>
+  <div>
+    <details><summary>¿Sirve si no hago tortas?</summary><p>Sí. Sirve para cualquier cosa que fabriques: comida, velas, jabones, bijouterie, sublimados. Si tiene insumos y horas de trabajo, se calcula igual.</p></details>
+    <details><summary>¿Tengo que instalar algo?</summary><p>No hace falta. Se abre desde el navegador. Si querés, la agregás a la pantalla de inicio y queda como una app que funciona sin internet.</p></details>
+    <details><summary>¿Dónde se guardan mis recetas?</summary><p>En tu teléfono. Desde Ajustes podés guardar una copia para pasarla a otro celular.</p></details>
+    <details><summary>¿Qué pasa si cambio de celular?</summary><p>Guardás una copia en el viejo, la cargás en el nuevo y volvés a ingresar tu código PRO.</p></details>
+  </div>
+  <div class="cta"><a class="btn" href="app.html">Probar gratis ahora</a></div>
+</section>
+
+<footer class="w">Cuánto Cobro · Hecho en Córdoba, Argentina.</footer>
+
+<script src="config.js"></script>
+<script>
+(function(){
+  var C = window.CC_CONFIG || {};
+  function esc(s){return String(s||"").replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  var lanz = C.lanzamientoActivo;
+  document.getElementById("p-ar").textContent = lanz ? C.precioLanzamientoAR : C.precioAR;
+  var antes = document.getElementById("p-ar-antes"); if (lanz) antes.textContent = C.precioAR; else antes.hidden = true;
+  document.getElementById("p-usd").textContent = (lanz ? "Precio de lanzamiento en Argentina. " : "Precio en Argentina. ") + "Desde otros países: " + (lanz ? C.precioLanzamientoUSD : C.precioUSD) + ".";
+  var h = "";
+  if (C.linkPagoAR) h += '<a class="btn" href="' + esc(C.linkPagoAR) + '" target="_blank" rel="noopener">Pagar con Mercado Pago</a>';
+  if (C.aliasMP || C.aliasNX) {
+    h += '<div style="display:flex;flex-direction:column;gap:6px"><p style="font-size:14px;color:var(--muted)">' + (C.linkPagoAR ? "O transferí" : "Transferí") + ' a cualquiera de estos alias' + (C.titularAlias ? " (a nombre de " + esc(C.titularAlias) + ")" : "") + ':</p>';
+    if (C.aliasMP) h += '<div class="alias">Mercado Pago: ' + esc(C.aliasMP) + '</div>';
+    if (C.aliasNX) h += '<div class="alias">Naranja X: ' + esc(C.aliasNX) + '</div>';
+    h += '</div>';
+  }
+  if (C.linkPagoInternacional) h += '<a class="btn sec" href="' + esc(C.linkPagoInternacional) + '" target="_blank" rel="noopener">Pagar desde otro país</a>';
+  if (C.whatsappVentas) h += '<a class="btn sec" href="https://wa.me/' + esc(C.whatsappVentas) + '?text=' + encodeURIComponent("Hola! Quiero Cuánto Cobro PRO") + '" target="_blank" rel="noopener">Escribinos por WhatsApp</a>';
+  if (!h) h = '<a class="btn" href="app.html">Probar gratis</a>';
+  else h = '<a class="btn" href="app.html">Probar gratis primero</a>' + h;
+  document.getElementById("pagos").innerHTML = h;
+})();
+</script>
+</body>
+</html>
